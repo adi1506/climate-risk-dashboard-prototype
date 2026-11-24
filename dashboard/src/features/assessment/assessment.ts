@@ -12,6 +12,26 @@ const heatPriorityInputs = [
   { key: 'clinker', label: 'FY2025–26 clinker produced', weight: 0.25 },
 ] as const
 
+const componentMax = 50
+const referencePoints = componentMax / 2
+const heatReferenceDays = 50
+const carbonReferenceShare = 20
+export const exposureScale = {
+  componentMax,
+  max: 2 * componentMax,
+  reviewScore: 2 * referencePoints,
+  heatDivisor: heatReferenceDays / referencePoints,
+  carbonMultiplier: referencePoints / carbonReferenceShare,
+}
+
+export const exposureBands = [
+  { id: 'low', label: 'Low', from: 0, to: 24 },
+  { id: 'watch', label: 'Watch', from: 25, to: 39 },
+  { id: 'near-review', label: 'Near review', from: 40, to: exposureScale.reviewScore - 1 },
+  { id: 'concerning', label: 'Concerning', from: exposureScale.reviewScore, to: 74 },
+  { id: 'high-concern', label: 'High concern', from: 75, to: exposureScale.max },
+] as const
+
 function scenarioPrice(year: number, dollars: number) {
   const rupees = dollars * carbonExchangeRate
   return { year, dollars, rupees, roundedRupees: Math.round(rupees / 100) * 100 }
@@ -98,7 +118,8 @@ export function buildAssessment(records: readonly PlantRecord[]) {
   const baselineSensitivity = portfolio.reduce((total, plant) => total + plant.baselineSensitivity, 0)
   const futureSensitivity = portfolio.reduce((total, plant) => total + plant.futureSensitivity, 0)
   const revenue = portfolio.reduce((total, plant) => total + plant.revenue, 0)
-  const totals = { baselineSensitivity, futureSensitivity, revenue, share: futureSensitivity / revenue * 100 }
+  const directEmissions = portfolio.reduce((total, plant) => total + plant.emissions * 1000, 0)
+  const totals = { baselineSensitivity, futureSensitivity, revenue, directEmissions, share: futureSensitivity / revenue * 100 }
 
   const portfolioHeatWeights = heatPriorityInputs.map(({ key, weight }) => ({
     key,
@@ -107,14 +128,17 @@ export function buildAssessment(records: readonly PlantRecord[]) {
   }))
   function exposureFor(period: keyof typeof carbonScenario, annualSensitivity: number) {
     const { year } = carbonScenario[period]
-    const daysInYear = (Date.UTC(year + 1, 0, 1) - Date.UTC(year, 0, 1)) / 86_400_000
-    const hotDays = portfolioHeatWeights.reduce((sum, { key, weight, total }) => {
+    const heatFactors = portfolioHeatWeights.map(({ key, weight, total }) => {
       const weightedCount = portfolio.reduce((count, plant) => count + plant.heat[period] * plant[key], 0)
-      return total > 0 ? sum + weight * weightedCount / total : sum
-    }, 0)
-    const heatScore = 100 * hotDays / daysInYear
-    const carbonScore = 100 * annualSensitivity / revenue
-    return { year, daysInYear, hotDays, heatScore, annualSensitivity, carbonScore, score: (heatScore + carbonScore) / 2 }
+      return { key, weight, days: total > 0 ? weightedCount / total : 0 }
+    })
+    const hotDays = heatFactors.reduce((sum, { weight, days }) => sum + weight * days, 0)
+    const carbonShare = 100 * annualSensitivity / revenue
+    const heatPoints = Math.min(componentMax, hotDays / exposureScale.heatDivisor)
+    const carbonPoints = Math.min(componentMax, carbonShare * exposureScale.carbonMultiplier)
+    const score = Math.round(heatPoints + carbonPoints)
+    const band = exposureBands.find(({ from, to }) => from <= score && score <= to)
+    return { year, heatFactors, hotDays, annualSensitivity, carbonShare, heatPoints, carbonPoints, score, band }
   }
 
   const portfolioExposure = {
