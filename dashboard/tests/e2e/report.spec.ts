@@ -1,0 +1,105 @@
+import { expect, test } from '@playwright/test'
+
+test('follows the Overview, comparisons, and Conclusions with the Stage 4 values', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Climate risk overview')
+  const exposure = page.getByRole('region', { name: 'Overall business exposure score' })
+  await expect(exposure).toContainText('11.5')
+  await expect(exposure).toContainText('22.0')
+  await expect(page.getByText('30.56%', { exact: true })).toBeVisible()
+
+  await page.getByRole('link', { name: 'Explore extreme heat' }).click()
+  await expect(page).toHaveURL(/#heat$/)
+  await expect(page).toHaveTitle('Extreme heat · Nimbus Cement')
+  const heat = page.getByRole('table', { name: 'All plants ranked by 2040 Heat Priority Score' })
+  await expect(heat.getByRole('row')).toHaveCount(10)
+  await expect(heat.getByRole('row').nth(1)).toContainText('Baloda Bazar')
+  await expect(heat.getByRole('row').nth(1)).toContainText('100')
+
+  await page.getByRole('navigation', { name: 'Report sections' }).getByRole('link', { name: 'Carbon cost' }).click()
+  const carbon = page.getByRole('table', { name: 'All plants ranked by 2040 carbon cost share' })
+  await expect(carbon.getByRole('row')).toHaveCount(10)
+  await expect(carbon.getByRole('row').nth(1)).toContainText('52.31%')
+  await expect(page.getByText('₹1,093.20 to ₹2,951.64 crore/year')).toBeVisible()
+
+  await page.getByRole('navigation', { name: 'Report sections' }).getByRole('link', { name: 'Conclusions' }).click()
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Conclusions')
+  const priorities = page.getByRole('region', { name: 'Top 3 plants to focus on' })
+  await expect(priorities.getByRole('link')).toHaveText(['Baloda Bazar', 'Chittorgarh', 'Chandrapur'])
+})
+
+test('opens plant evidence, switches topics, and restores focus through browser Back and Escape', async ({ page }) => {
+  await page.goto('/#heat')
+  const origin = page.getByRole('table').getByRole('link', { name: 'Baloda Bazar' })
+  await origin.focus()
+  const originScroll = await page.evaluate(() => window.scrollY)
+  await page.keyboard.press('Enter')
+
+  const drawer = page.getByRole('dialog', { name: 'Baloda Bazar' })
+  await expect(drawer).toBeVisible()
+  await expect(page).toHaveTitle('Baloda Bazar · Nimbus Cement')
+  await expect(drawer.getByRole('heading', { name: 'Baloda Bazar' })).toBeFocused()
+  await expect(drawer.getByText('100/100 · Rank 1')).toBeVisible()
+  await expect(drawer.getByText(/53\.7215/).first()).toBeVisible()
+
+  await drawer.getByRole('link', { name: 'Carbon cost', exact: true }).click()
+  await expect(page).toHaveURL(/#heat\/P06\/carbon$/)
+  await expect(drawer.getByText('52.31% · Rank 1')).toBeVisible()
+  await drawer.getByText('Calculation and sources', { exact: true }).click()
+  await expect(drawer.getByText('24,70,000 t × ₹2,700/t ÷ 1,00,00,000 = ₹666.90 crore/year')).toBeVisible()
+
+  await page.goBack()
+  await expect(drawer).toBeHidden()
+  await expect(origin).toBeFocused()
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(originScroll)
+  await page.goForward()
+  await expect(drawer).toBeVisible()
+  await page.keyboard.press('Escape')
+  await expect(origin).toBeFocused()
+})
+
+test('supports shareable method links, method tabs, and local evidence files', async ({ page, request }) => {
+  await page.goto('/#heat/method')
+  const heat = page.getByRole('dialog', { name: 'Extreme heat method' })
+  await expect(page).toHaveTitle('Extreme heat method · Nimbus Cement')
+  await expect(heat.getByRole('tab', { name: 'Score' })).toHaveAttribute('aria-selected', 'true')
+  await heat.getByRole('tab', { name: 'Why 40°C?' }).click()
+  await expect(heat.getByRole('heading', { name: 'What counts as a hot day?' })).toBeVisible()
+  await heat.getByRole('button', { name: 'Close evidence' }).click()
+  await expect(page).toHaveURL(/#heat$/)
+
+  await page.goto('/#carbon/method')
+  const carbon = page.getByRole('dialog', { name: 'Carbon cost method' })
+  await carbon.getByRole('tab', { name: 'Price basis' }).click()
+  await expect(carbon.getByRole('heading', { name: 'Scenario prices used in the dashboard' })).toBeVisible()
+  await carbon.getByRole('tab', { name: 'Sources' }).click()
+  await carbon.getByText('Nimbus plant inputs and method', { exact: true }).click()
+  const inventory = carbon.getByRole('link', { name: /Nimbus plant inventory/ })
+  await expect(inventory).toBeVisible()
+  const inventoryResponse = await request.get((await inventory.getAttribute('href'))!)
+  expect(inventoryResponse.ok()).toBe(true)
+  expect(await inventoryResponse.text()).toContain('P06')
+  expect((await request.head('/outputs/nimbus-heat-2026-2040/nimbus-hot-days-2026-2040.xlsx')).ok()).toBe(true)
+})
+
+test.describe('portrait touch layout', () => {
+  test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true })
+
+  test('stacks previews and opens full-width plant evidence', async ({ page }) => {
+    await page.goto('/')
+    const heat = page.getByRole('region', { name: 'Extreme heat preview' })
+    const carbon = page.getByRole('region', { name: 'Carbon cost preview' })
+    await expect(carbon).toBeVisible()
+    const heatBox = (await heat.boundingBox())!
+    const carbonBox = (await carbon.boundingBox())!
+    expect(carbonBox.y).toBeGreaterThanOrEqual(heatBox.y + heatBox.height)
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390)
+
+    await page.getByRole('link', { name: 'View Chittorgarh heat evidence' }).tap()
+    const evidence = page.getByRole('dialog', { name: 'Chittorgarh' })
+    await expect(evidence.getByText('+16 days/year')).toBeVisible()
+    const drawer = (await evidence.boundingBox())!
+    expect(drawer.x).toBe(0)
+    expect(drawer.width).toBe(390)
+  })
+})
