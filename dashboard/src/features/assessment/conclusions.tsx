@@ -1,74 +1,17 @@
-import { ArrowRight, ChevronDown } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { Card } from '@/components/ui/card'
-import { carbonSensitivityCalculation, carbonShareCalculation, combinedPriorityCalculation, exposureCalculation, heatExposureCalculation, portfolioHeatCalculation } from './metric-calculations'
+import { ExposureScore } from './exposure-score'
+import { carbonSensitivityCalculation, combinedPriorityCalculation, portfolioHeatCalculation } from './metric-calculations'
 import { MetricHelp } from './metric-help'
 import { plantHref, ReportLink, type Risk } from './navigation'
-import { assessment, money, one, two, whole } from './report'
+import { assessment, money, two, whole } from './report'
 import { heatPriorityStyle } from './risk-colors'
 
-const { carbonScenario, heatPriorityFactors, portfolio, portfolioExposure, priorityPlants, totals } = assessment
-
+const { carbonScenario, portfolioExposure, priorityPlants } = assessment
 const { baseline, future } = portfolioExposure
-const percentChange = new Intl.NumberFormat('en-IN', {
-  style: 'percent', signDisplay: 'exceptZero', minimumFractionDigits: 1, maximumFractionDigits: 1,
-}).format
 const signedDays = new Intl.NumberFormat('en-IN', {
   signDisplay: 'exceptZero', minimumFractionDigits: 2, maximumFractionDigits: 2,
 }).format
-
-function ExposureScore() {
-  const factors = heatPriorityFactors.map(({ key, weight }) => {
-    const label = key === 'employees' ? 'workforce' : `${key} output`
-    return `${whole(weight * 100)}% ${label}`
-  })
-  return <Card className="panel first-check-panel exposure-panel" role="region" aria-labelledby="exposure-title">
-    <div className="exposure-headline">
-      <div className="metric-label">
-        <h2 id="exposure-title">Overall Business Exposure to Climate Risk Score</h2>
-        <MetricHelp label="overall business exposure">{exposureCalculation}</MetricHelp>
-      </div>
-      <p className="first-check-note">Screening index · {portfolio.length} plants · Heat and carbon</p>
-      <div className="exposure-primary">
-        <strong>{one(future.score)} <small>/ 100</small></strong>
-        <span>{future.year} scenario</span>
-      </div>
-      <p className="exposure-baseline">
-        <span><strong>{one(baseline.score)} / 100</strong> in {baseline.year}</span>
-        {baseline.score > 0 && <span className="metric-label">
-          <strong className="exposure-change">{percentChange(future.score / baseline.score - 1)} vs {baseline.year}</strong>
-          <MetricHelp label="change in overall exposure">(2040 score ÷ 2026 score − 1) × 100. Uses unrounded scores.</MetricHelp>
-        </span>}
-      </p>
-    </div>
-    <div className="exposure-components">
-      <h3>Two components, weighted equally</h3>
-      <dl className="exposure-components-grid">
-        <div className="exposure-component heat">
-          <dt className="metric-label">Physical · Extreme heat
-            <MetricHelp label="physical exposure">{heatExposureCalculation}</MetricHelp>
-          </dt>
-          <dd className="exposure-component-value"><strong>{two(future.heatScore)} <small>/ 100</small></strong><span>50% weight</span></dd>
-          <dd className="exposure-component-note">Portfolio-weighted share of hot days</dd>
-        </div>
-        <div className="exposure-component carbon">
-          <dt className="metric-label">Transition · Carbon cost
-            <MetricHelp label="transition exposure">{carbonShareCalculation}</MetricHelp>
-          </dt>
-          <dd className="exposure-component-value"><strong>{two(future.carbonScore)} <small>/ 100</small></strong><span>50% weight</span></dd>
-          <dd className="exposure-component-note">Sensitivity as a share of revenue</dd>
-        </div>
-      </dl>
-      <details className="disclosure exposure-method">
-        <summary>How the score is calculated<ChevronDown size={16} aria-hidden="true" /></summary>
-        <div className="disclosure-body">
-          <p><strong>Physical risk.</strong> Average modelled hot days at or above 40°C using {factors.join(', ')} across the fixed FY2025–26 portfolio. Divide by calendar days and multiply by 100. The {future.year} component is {two(future.hotDays)} ÷ {future.daysInYear} × 100 ≈ {two(future.heatScore)}.</p>
-          <p><strong>Transition risk.</strong> Divide scenario annual carbon price sensitivity by fixed FY2025–26 portfolio revenue and multiply by 100. The {future.year} component is {money(future.annualSensitivity)} crore ÷ ₹{whole(totals.revenue)} crore × 100 ≈ {two(future.carbonScore)}.</p>
-          <p><strong>Overall score.</strong> Average the two components for each year. The headline change divides the increase in the overall score by the {baseline.year} score. The calculations use unrounded values.</p>
-        </div>
-      </details>
-    </div>
-  </Card>
-}
 
 function PlantRanks() {
   const lastRank = Math.max(...priorityPlants.flatMap(plant => [plant.heatPriority.rank, plant.carbonRank]))

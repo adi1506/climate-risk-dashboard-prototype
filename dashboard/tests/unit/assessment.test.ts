@@ -19,6 +19,7 @@ test('reproduces the published carbon sensitivities and revenue-weighted portfol
   assert.equal(carbonRanking[0].baselineSensitivity, 247)
   assert.equal(carbonRanking[0].futureSensitivity, 666.90)
   assert.equal(totals.revenue, 9_658)
+  assert.equal(totals.directEmissions, 10_932_000)
   assert.equal(totals.baselineSensitivity.toFixed(2), '1093.20')
   assert.equal(totals.futureSensitivity.toFixed(2), '2951.64')
   assert.equal(totals.share.toFixed(2), '30.56')
@@ -42,11 +43,13 @@ test('matches the overview and conclusions of the worked Stage 4 assessment', ()
   const { portfolioExposure, priorityPlants, combinedPriority } = buildAssessment(plantRecords)
   const { baseline, future } = portfolioExposure
 
-  assert.deepEqual([baseline.daysInYear, future.daysInYear], [365, 366])
   assert.deepEqual([baseline.hotDays.toFixed(2), future.hotDays.toFixed(2)], ['42.65', '48.98'])
-  assert.deepEqual([baseline.heatScore.toFixed(2), future.heatScore.toFixed(2)], ['11.68', '13.38'])
-  assert.deepEqual([baseline.carbonScore.toFixed(2), future.carbonScore.toFixed(2)], ['11.32', '30.56'])
-  assert.deepEqual([baseline.score.toFixed(1), future.score.toFixed(1)], ['11.5', '22.0'])
+  assert.deepEqual(future.heatFactors.map(({ days }) => days.toFixed(2)), ['48.27', '45.31', '54.05'])
+  assert.deepEqual([baseline.carbonShare.toFixed(2), future.carbonShare.toFixed(2)], ['11.32', '30.56'])
+  assert.deepEqual([baseline.heatPoints.toFixed(2), future.heatPoints.toFixed(2)], ['21.32', '24.49'])
+  assert.deepEqual([baseline.carbonPoints.toFixed(2), future.carbonPoints.toFixed(2)], ['14.15', '38.20'])
+  assert.deepEqual([baseline.score, future.score], [35, 63])
+  assert.deepEqual([baseline.band?.label, future.band?.label], ['Watch', 'Concerning'])
   assert.deepEqual(priorityPlants.map(plant => [plant.id, combinedPriority(plant)]), [
     ['P06', 100], ['P01', 89.5], ['P03', 80.5],
   ])
@@ -64,8 +67,25 @@ test('shares exact heat ranks and handles portfolios without clinker, cement or 
   ])
   assert.deepEqual(carbonRanking.map(plant => plant.carbonScore), [1, 1, 1, 1])
   assert.equal(portfolioExposure.future.hotDays, 5.625)
-  assert.equal(portfolioExposure.future.carbonScore, 0)
+  assert.equal(portfolioExposure.future.carbonPoints, 0)
   assert.equal(portfolioExposure.baseline.score, 0)
+})
+
+test('caps each exposure component and assigns the band after rounding the sum', () => {
+  const plant = plantRecords[0]
+  const { portfolioExposure: { baseline, future } } = buildAssessment([{
+    ...plant,
+    // At the baseline price, this adds 0.25 points to a 49.5-point heat contribution.
+    emissions: 20,
+    revenue: 1_000,
+    heat: { ...plant.heat, baseline: 99, future: 180 },
+  }])
+  assert.equal(baseline.score, 50)
+  assert.equal(baseline.band?.id, 'concerning')
+  assert.equal(future.heatPoints, 50)
+
+  const highCarbon = buildAssessment([{ ...plant, emissions: 10_000, revenue: 1_000 }]).portfolioExposure.future
+  assert.equal(highCarbon.carbonPoints, 50)
 })
 
 test('rejects portfolios with missing denominators or ambiguous plant IDs', () => {

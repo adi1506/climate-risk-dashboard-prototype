@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { buttonVariants } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { HeatLegend, PlantPlot, RevenueRing } from './charts'
+import { ExposureTimeline } from './exposure-score'
 import {
   averageHeatChangeCalculation, carbonSensitivityCalculation, carbonShareCalculation, combinedPriorityCalculation,
   exposureCalculation, heatChangeCalculation, hotDaysCalculation,
@@ -10,9 +11,9 @@ import {
 import { MetricHelp } from './metric-help'
 import { plantHref, ReportLink, sections, useNavigation, type Section } from './navigation'
 import { heatChange } from './assessment'
-import { assessment, money, one, signed, two, whole } from './report'
+import { assessment, money, signed, two, whole } from './report'
 
-const { averageHeatChange, carbonRanking, carbonScenario, combinedPriority, heatDaysRanking, heatIncrease, portfolioExposure, priorityPlants, totals } = assessment
+const { averageHeatChange, carbonRanking, carbonScenario, combinedPriority, heatDaysRanking, heatIncrease, priorityPlants, totals } = assessment
 
 export function Header() {
   const { route } = useNavigation()
@@ -69,17 +70,12 @@ function PanelLink({ href, id, children }: { href: string; id: string; children:
 }
 
 function OverviewExposure() {
-  const { baseline, future } = portfolioExposure
   return <section className="panel overview-exposure" aria-labelledby="overview-exposure-title">
     <div className="metric-label">
       <h2 id="overview-exposure-title">Overall business exposure score</h2>
       <MetricHelp label="overall business exposure">{exposureCalculation}</MetricHelp>
     </div>
-    <dl className="overview-exposure-values">
-      {[baseline, future].map(({ year, score }) => <div key={year}>
-        <dt>{year}</dt><dd><strong>{one(score)}</strong> <small>/ 100</small></dd>
-      </div>)}
-    </dl>
+    <ExposureTimeline />
     <PanelLink href="#conclusions" id="overview-conclusions">View conclusions</PanelLink>
   </section>
 }
