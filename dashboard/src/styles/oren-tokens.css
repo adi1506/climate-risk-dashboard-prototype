@@ -1,0 +1,389 @@
+/* Generated from tokens.json. Run python build_tokens.py to update. */
+@keyframes oren-ping { 75%,to{opacity:0;transform:scale(2)} }
+@keyframes oren-pulse { 50%{opacity:.5} }
+@keyframes oren-spin { to{transform:rotate(1turn)} }
+
+@font-face {
+  font-family: Relative;
+  src: url("https://www.orennow.com/fonts/Relative-Book.woff2")format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Relative;
+  src: url("https://www.orennow.com/fonts/Relative-Medium.woff2")format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Relative;
+  src: url("https://www.orennow.com/fonts/Relative-Bold.woff2")format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://www.orennow.com/_next/static/media/cce080f35d014443-s.woff2") format("woff2");
+  unicode-range: U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+@font-face {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://www.orennow.com/_next/static/media/4de1fea1a954a5b6-s.p.woff2") format("woff2");
+  unicode-range: U+0-FF,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+@font-face {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("https://www.orennow.com/_next/static/media/39969fcf98a3026e-s.woff2") format("woff2");
+  unicode-range: U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+@font-face {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("https://www.orennow.com/_next/static/media/6d664cce900333ee-s.p.woff2") format("woff2");
+  unicode-range: U+0-FF,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+@font-face {
+  font-family: Lato Fallback;
+  src: local("Arial");
+  ascent-override: 101.03%;
+  descent-override: 21.80%;
+  line-gap-override: 0.00%;
+  size-adjust: 97.69%;
+}
+
+:root {
+  --oren-animate-ping: oren-ping 1s cubic-bezier(0,0,.2,1)infinite;
+  --oren-animate-pulse: oren-pulse 2s cubic-bezier(.4,0,.6,1)infinite;
+  --oren-animate-spin: oren-spin 1s linear infinite;
+  --oren-aspect-video: 16/9;
+  --oren-blur-lg: 16px;
+  --oren-blur-md: 12px;
+  --oren-blur-sm: 8px;
+  --oren-color-amber-400: oklch(82.8% .189 84.429);
+  --oren-color-amber-50: oklch(98.7% .022 95.277);
+  --oren-color-amber-500: oklch(76.9% .188 70.08);
+  --oren-color-amber-600: oklch(66.6% .179 58.318);
+  --oren-color-amber-700: oklch(55.5% .163 48.998);
+  --oren-color-amber-800: oklch(47.3% .137 46.201);
+  --oren-color-black: #000;
+  --oren-color-blue-400: oklch(70.7% .165 254.624);
+  --oren-color-blue-50: oklch(97% .014 254.604);
+  --oren-color-blue-500: oklch(62.3% .214 259.815);
+  --oren-color-blue-600: oklch(54.6% .245 262.881);
+  --oren-color-blue-700: oklch(48.8% .243 264.376);
+  --oren-color-cyan-500: oklch(71.5% .143 215.221);
+  --oren-color-emerald-100: oklch(95% .052 163.051);
+  --oren-color-emerald-200: oklch(90.5% .093 164.15);
+  --oren-color-emerald-400: oklch(76.5% .177 163.223);
+  --oren-color-emerald-50: oklch(97.9% .021 166.113);
+  --oren-color-emerald-500: oklch(69.6% .17 162.48);
+  --oren-color-emerald-600: oklch(59.6% .145 163.225);
+  --oren-color-emerald-700: oklch(50.8% .118 165.612);
+  --oren-color-emerald-900: oklch(37.8% .077 168.94);
+  --oren-color-gray-100: oklch(96.7% .003 264.542);
+  --oren-color-gray-200: oklch(92.8% .006 264.531);
+  --oren-color-gray-300: oklch(87.2% .01 258.338);
+  --oren-color-gray-400: oklch(70.7% .022 261.325);
+  --oren-color-gray-50: oklch(98.5% .002 247.839);
+  --oren-color-gray-500: oklch(55.1% .027 264.364);
+  --oren-color-gray-600: oklch(44.6% .03 256.802);
+  --oren-color-indigo-500: oklch(58.5% .233 277.117);
+  --oren-color-indigo-600: oklch(51.1% .262 276.966);
+  --oren-color-indigo-700: oklch(45.7% .24 277.023);
+  --oren-color-accent: #0f766e;
+  --oren-color-blue: #1e2b56;
+  --oren-color-blue-dark: #141d3b;
+  --oren-color-error: #df3434;
+  --oren-color-green: #047857;
+  --oren-color-orange: #c2410c;
+  --oren-color-soft: #e7eff0;
+  --oren-color-yellow: #a16207;
+  --oren-color-pink-400: oklch(71.8% .202 349.761);
+  --oren-color-purple-400: oklch(71.4% .203 305.504);
+  --oren-color-red-200: oklch(88.5% .062 18.334);
+  --oren-color-red-400: oklch(70.4% .191 22.216);
+  --oren-color-red-50: oklch(97.1% .013 17.38);
+  --oren-color-red-500: oklch(63.7% .237 25.331);
+  --oren-color-red-600: oklch(57.7% .245 27.325);
+  --oren-color-red-700: oklch(50.5% .213 27.518);
+  --oren-color-rose-100: oklch(94.1% .03 12.58);
+  --oren-color-rose-200: oklch(89.2% .058 10.001);
+  --oren-color-rose-400: oklch(71.2% .194 13.428);
+  --oren-color-rose-50: oklch(96.9% .015 12.422);
+  --oren-color-rose-500: oklch(64.5% .246 16.439);
+  --oren-color-rose-600: oklch(58.6% .253 17.585);
+  --oren-color-rose-700: oklch(51.4% .222 16.935);
+  --oren-color-sky-500: oklch(68.5% .169 237.323);
+  --oren-color-sky-600: oklch(58.8% .158 241.966);
+  --oren-color-sky-700: oklch(50% .134 242.749);
+  --oren-color-slate-100: oklch(96.8% .007 247.896);
+  --oren-color-slate-200: oklch(92.9% .013 255.508);
+  --oren-color-slate-300: oklch(86.9% .022 252.894);
+  --oren-color-slate-400: oklch(70.4% .04 256.788);
+  --oren-color-slate-50: oklch(98.4% .003 247.858);
+  --oren-color-slate-500: oklch(55.4% .046 257.417);
+  --oren-color-slate-600: oklch(44.6% .043 257.281);
+  --oren-color-slate-700: oklch(37.2% .044 257.287);
+  --oren-color-slate-800: oklch(27.9% .041 260.031);
+  --oren-color-slate-900: oklch(20.8% .042 265.755);
+  --oren-color-slate-950: oklch(12.9% .042 264.695);
+  --oren-color-teal-500: oklch(70.4% .14 182.503);
+  --oren-color-white: #fff;
+  --oren-color-yellow-500: oklch(79.5% .184 86.047);
+  --oren-color-yellow-700: oklch(55.4% .135 66.442);
+  --oren-container-2xl: 42rem;
+  --oren-container-3xl: 48rem;
+  --oren-container-4xl: 56rem;
+  --oren-container-5xl: 64rem;
+  --oren-container-6xl: 72rem;
+  --oren-container-7xl: 80rem;
+  --oren-container-lg: 32rem;
+  --oren-container-md: 28rem;
+  --oren-container-sm: 24rem;
+  --oren-container-xl: 36rem;
+  --oren-default-font-family: var(--oren-font-sans);
+  --oren-default-mono-font-family: var(--oren-font-mono);
+  --oren-default-transition-duration: .15s;
+  --oren-default-transition-timing-function: cubic-bezier(.4,0,.2,1);
+  --oren-drop-shadow-lg: 0 4px 4px #00000026;
+  --oren-ease-in: cubic-bezier(.4,0,1,1);
+  --oren-ease-in-out: cubic-bezier(.4,0,.2,1);
+  --oren-ease-out: cubic-bezier(0,0,.2,1);
+  --oren-font-display: "Relative",ui-sans-serif,system-ui,sans-serif;
+  --oren-font-lato: "Lato","Lato Fallback";
+  --oren-font-mono: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+  --oren-font-sans: "Lato",ui-sans-serif,system-ui,sans-serif;
+  --oren-font-weight-bold: 700;
+  --oren-font-weight-extrabold: 800;
+  --oren-font-weight-medium: 500;
+  --oren-font-weight-normal: 400;
+  --oren-font-weight-semibold: 600;
+  --oren-leading-relaxed: 1.625;
+  --oren-leading-snug: 1.375;
+  --oren-leading-tight: 1.25;
+  --oren-radius-2xl: 1rem;
+  --oren-radius-3xl: 1.5rem;
+  --oren-radius-lg: .5rem;
+  --oren-radius-md: .375rem;
+  --oren-radius-sm: .25rem;
+  --oren-radius-xl: .75rem;
+  --oren-spacing: .25rem;
+  --oren-text-2xl: 1.5rem;
+  --oren-text-2xl--line-height: calc(2/1.5);
+  --oren-text-3xl: 1.875rem;
+  --oren-text-3xl--line-height: calc(2.25/1.875);
+  --oren-text-4xl: 2.25rem;
+  --oren-text-4xl--line-height: calc(2.5/2.25);
+  --oren-text-5xl: 3rem;
+  --oren-text-5xl--line-height: 1;
+  --oren-text-6xl: 3.75rem;
+  --oren-text-6xl--line-height: 1;
+  --oren-text-8xl: 6rem;
+  --oren-text-8xl--line-height: 1;
+  --oren-text-9xl: 8rem;
+  --oren-text-9xl--line-height: 1;
+  --oren-text-base: 1rem;
+  --oren-text-base--line-height: calc(1.5/1);
+  --oren-text-h1: 3.5rem;
+  --oren-text-h1--line-height: 1.2;
+  --oren-text-h2: 2.5rem;
+  --oren-text-h2--line-height: 1.3;
+  --oren-text-h3: 2rem;
+  --oren-text-h3--line-height: 1.4;
+  --oren-text-h4: 1.5rem;
+  --oren-text-h4--line-height: 1.4;
+  --oren-text-h5: 1.25rem;
+  --oren-text-h5--line-height: 1.5;
+  --oren-text-h6: 1rem;
+  --oren-text-h6--line-height: 1.5;
+  --oren-text-large: 1.25rem;
+  --oren-text-large--line-height: 1.5;
+  --oren-text-lg: 1.125rem;
+  --oren-text-lg--line-height: calc(1.75/1.125);
+  --oren-text-medium: 1.125rem;
+  --oren-text-medium--line-height: 1.5;
+  --oren-text-regular: 1rem;
+  --oren-text-regular--line-height: 1.5;
+  --oren-text-sm: .875rem;
+  --oren-text-sm--line-height: calc(1.25/.875);
+  --oren-text-small: .875rem;
+  --oren-text-small--line-height: 1.5;
+  --oren-text-tiny: .75rem;
+  --oren-text-tiny--line-height: 1.5;
+  --oren-text-xl: 1.25rem;
+  --oren-text-xl--line-height: calc(1.75/1.25);
+  --oren-text-xs: .75rem;
+  --oren-text-xs--line-height: calc(1/.75);
+  --oren-tracking-tight: -.025em;
+  --oren-tracking-wide: .025em;
+  --oren-tracking-wider: .05em;
+  --oren-tracking-widest: .1em;
+  --oren-gradient-primary: linear-gradient(135deg, var(--oren-color-blue), var(--oren-color-accent));
+  --oren-gradient-primary-hover: linear-gradient(135deg, color-mix(in srgb, var(--oren-color-blue) 80%, white), color-mix(in srgb, var(--oren-color-accent) 80%, white));
+  --oren-gradient-outline: linear-gradient(135deg, var(--oren-color-accent), var(--oren-color-blue));
+  --oren-gradient-inverse: linear-gradient(to bottom in oklab, var(--oren-color-blue), var(--oren-color-blue-dark));
+  --oren-surface-ai: #f0f3f8;
+  --oren-surface-inverse-control: color-mix(in oklab, var(--oren-color-white) 10%, transparent);
+  --oren-border-inverse-control: color-mix(in oklab, var(--oren-color-white) 20%, transparent);
+  --oren-placeholder-inverse-control: color-mix(in oklab, var(--oren-color-white) 40%, transparent);
+  --oren-text-inverse-muted: color-mix(in oklab, var(--oren-color-white) 70%, transparent);
+  --oren-radius-full: 3.40282e+38px;
+  --oren-shadow-sm: 0 1px 3px 0 #0000001a, 0 1px 2px -1px #0000001a;
+  --oren-shadow-lg: 0 10px 15px -3px #0000001a, 0 4px 6px -4px #0000001a;
+  --oren-button-transition-duration: .2s;
+  --oren-focus-width: 2px;
+  --oren-chart-scope-1: var(--oren-color-emerald-500);
+  --oren-chart-scope-2: var(--oren-color-teal-500);
+  --oren-chart-scope-3: var(--oren-color-cyan-500);
+  --oren-chart-track: var(--oren-color-slate-200);
+  --oren-chart-progress: #059669;
+  --oren-chart-series-1: #287a73;
+  --oren-chart-series-2: #496e91;
+  --oren-chart-series-3: #936526;
+  --oren-chart-series-4: #6c5c8c;
+  --oren-chart-series-5: #9c5064;
+  --oren-chart-scope-1-outline: var(--oren-color-emerald-700);
+  --oren-chart-scope-2-outline: var(--oren-color-accent);
+  --oren-chart-scope-3-outline: var(--oren-color-sky-700);
+  --oren-chart-axis: var(--oren-color-slate-600);
+  --oren-chart-grid: var(--oren-color-slate-200);
+  --oren-chart-baseline: var(--oren-color-slate-400);
+  --oren-chart-cursor: color-mix(in srgb, var(--oren-color-blue) 6%, transparent);
+  --oren-chart-tooltip-background: var(--oren-color-white);
+  --oren-chart-tooltip-foreground: var(--oren-color-slate-900);
+  --oren-chart-tooltip-border: var(--oren-color-slate-200);
+  --oren-chart-tooltip-radius: var(--oren-radius-lg);
+  --oren-chart-tooltip-shadow: var(--oren-shadow-lg);
+  --oren-chart-label-size: var(--oren-text-tiny);
+  --oren-risk-bar-track: #eaf0f2;
+  --oren-risk-bar-radius: var(--oren-radius-full);
+  --oren-risk-bar-height: 0.75rem;
+  --oren-risk-very-low-fill: linear-gradient(90deg, #2c736e, #41938a);
+  --oren-risk-very-low-text: #205b53;
+  --oren-risk-very-low-surface: #e7f4ef;
+  --oren-risk-low-fill: linear-gradient(90deg, #405f82, #6285a6);
+  --oren-risk-low-text: #365575;
+  --oren-risk-low-surface: #eaf0f7;
+  --oren-risk-moderate-fill: linear-gradient(90deg, #8e5a20, #ad772b);
+  --oren-risk-moderate-text: #73501c;
+  --oren-risk-moderate-surface: #f8efdc;
+  --oren-risk-high-fill: linear-gradient(90deg, #9d452d, #c66e4e);
+  --oren-risk-high-text: #873f29;
+  --oren-risk-high-surface: #faece5;
+  --oren-risk-very-high-fill: linear-gradient(90deg, #8a374c, #b4566b);
+  --oren-risk-very-high-text: #7b3045;
+  --oren-risk-very-high-surface: #f8e9ee;
+  --oren-risk-unavailable-pattern: repeating-linear-gradient(135deg, #aab9c4 0 1px, transparent 1px 5px);
+  --oren-risk-unavailable-text: #475569;
+  --oren-risk-unavailable-surface: #edf0f4;
+  --oren-role-background: var(--oren-color-white);
+  --oren-role-surface: var(--oren-color-slate-50);
+  --oren-role-heading: var(--oren-color-slate-900);
+  --oren-role-body: var(--oren-color-slate-700);
+  --oren-role-muted: var(--oren-color-slate-600);
+  --oren-role-action: var(--oren-color-accent);
+  --oren-role-control-border: var(--oren-color-slate-200);
+  --oren-role-focus: var(--oren-color-accent);
+}
+
+[data-oren-surface="inverse"] {
+  --oren-chart-series-1: #70b8ab;
+  --oren-chart-series-2: #85afd3;
+  --oren-chart-series-3: #daad63;
+  --oren-chart-series-4: #b5a1d9;
+  --oren-chart-series-5: #db93a4;
+  --oren-chart-scope-1-outline: var(--oren-color-emerald-400);
+  --oren-chart-scope-2-outline: var(--oren-color-teal-500);
+  --oren-chart-scope-3-outline: var(--oren-color-cyan-500);
+  --oren-chart-axis: var(--oren-color-slate-300);
+  --oren-chart-grid: var(--oren-color-slate-700);
+  --oren-chart-baseline: var(--oren-color-slate-400);
+  --oren-chart-cursor: var(--oren-surface-inverse-control);
+  --oren-chart-tooltip-background: var(--oren-color-slate-900);
+  --oren-chart-tooltip-foreground: var(--oren-color-slate-50);
+  --oren-chart-tooltip-border: var(--oren-color-slate-700);
+  --oren-risk-bar-track: #263453;
+  --oren-risk-very-low-fill: linear-gradient(90deg, #519a90, #7bc7b3);
+  --oren-risk-very-low-text: #b1e0d1;
+  --oren-risk-very-low-surface: #233f45;
+  --oren-risk-low-fill: linear-gradient(90deg, #6c92ba, #94b8d8);
+  --oren-risk-low-text: #c4ddf3;
+  --oren-risk-low-surface: #2a3c59;
+  --oren-risk-moderate-fill: linear-gradient(90deg, #b38543, #deaf62);
+  --oren-risk-moderate-text: #f4d397;
+  --oren-risk-moderate-surface: #453d3a;
+  --oren-risk-high-fill: linear-gradient(90deg, #bc7055, #e49a77);
+  --oren-risk-high-text: #ffc7b1;
+  --oren-risk-high-surface: #48373c;
+  --oren-risk-very-high-fill: linear-gradient(90deg, #b9697b, #e093a2);
+  --oren-risk-very-high-text: #fbc3d0;
+  --oren-risk-very-high-surface: #473340;
+  --oren-risk-unavailable-pattern: repeating-linear-gradient(135deg, #7f8ba3 0 1px, transparent 1px 5px);
+  --oren-risk-unavailable-text: #c5cfe1;
+  --oren-risk-unavailable-surface: #303b53;
+  --oren-role-background: var(--oren-color-blue-dark);
+  --oren-role-surface: var(--oren-surface-inverse-control);
+  --oren-role-heading: var(--oren-color-white);
+  --oren-role-body: var(--oren-color-white);
+  --oren-role-muted: var(--oren-text-inverse-muted);
+  --oren-role-action: var(--oren-color-white);
+  --oren-role-control-border: var(--oren-border-inverse-control);
+  --oren-role-focus: var(--oren-color-white);
+}
+
+[data-oren-risk="very-low"] {
+  --oren-risk-fill: var(--oren-risk-very-low-fill);
+  --oren-risk-text: var(--oren-risk-very-low-text);
+  --oren-risk-surface: var(--oren-risk-very-low-surface);
+}
+
+[data-oren-risk="low"] {
+  --oren-risk-fill: var(--oren-risk-low-fill);
+  --oren-risk-text: var(--oren-risk-low-text);
+  --oren-risk-surface: var(--oren-risk-low-surface);
+}
+
+[data-oren-risk="moderate"] {
+  --oren-risk-fill: var(--oren-risk-moderate-fill);
+  --oren-risk-text: var(--oren-risk-moderate-text);
+  --oren-risk-surface: var(--oren-risk-moderate-surface);
+}
+
+[data-oren-risk="high"] {
+  --oren-risk-fill: var(--oren-risk-high-fill);
+  --oren-risk-text: var(--oren-risk-high-text);
+  --oren-risk-surface: var(--oren-risk-high-surface);
+}
+
+[data-oren-risk="very-high"] {
+  --oren-risk-fill: var(--oren-risk-very-high-fill);
+  --oren-risk-text: var(--oren-risk-very-high-text);
+  --oren-risk-surface: var(--oren-risk-very-high-surface);
+}
+
+[data-oren-risk="unavailable"] {
+  --oren-risk-fill: var(--oren-risk-unavailable-pattern);
+  --oren-risk-text: var(--oren-risk-unavailable-text);
+  --oren-risk-surface: var(--oren-risk-unavailable-surface);
+}
